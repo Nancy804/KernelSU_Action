@@ -13,8 +13,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
 
       - name: Prepare Configuration
         run: |
@@ -90,11 +88,9 @@ jobs:
       - name: Download Clang-aosp
         if: env.USE_CUSTOM_CLANG != 'true'
         run: |
-          cd $GITHUB_WORKSPACE/kernel_workspace
-          mkdir clang-aosp
-          wget https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/${{ env.CLANG_BRANCH }}/clang-${{ env.CLANG_VERSION }}.tar.gz
-          tar -C clang-aosp/ -zxvf clang-${{ env.CLANG_VERSION }}.tar.gz
-
+          cd $GITHUB_WORKSPACE
+          git clone https://github.com/nclv/google-clang kernel_workspace/clang-aosp --depth=1
+          
       - name: Download Clang-aosp
         if: env.USE_CUSTOM_CLANG != 'true'
         run: |
